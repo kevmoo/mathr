@@ -31,14 +31,6 @@ class AppModel extends ChangeNotifier {
     return _newProblem;
   }
 
-  void Function() get onNext {
-    if (_currentProblem.solved) {
-      print("tis solved!");
-      return _newProblem;
-    }
-    return null;
-  }
-
   void _newProblem() {
     if (_currentProblem != null) {
       _currentProblem.removeListener(_listener);
@@ -50,7 +42,7 @@ class AppModel extends ChangeNotifier {
 
   void _listener() {
     if (_currentProblem.solved) {
-      notifyListeners();
+      _newProblem();
     }
   }
 

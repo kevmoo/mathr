@@ -7,27 +7,16 @@ class AppView extends StatelessWidget {
   Widget build(BuildContext context) => Consumer<AppModel>(
         builder: (_, appModel, __) => Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Flexible(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  OutlineButton(
-                    child: Text('Next'),
-                    onPressed: appModel.onNext,
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  OutlineButton(
-                    child: Text('Skip'),
-                    onPressed: appModel.onSkip,
-                  ),
-                ],
+            Center(
+              child: OutlineButton(
+                child: Text('Skip'),
+                onPressed: appModel.onSkip,
               ),
             ),
-            Flexible(
-              flex: 2,
+            Expanded(
+              flex: 3,
               child: ChangeNotifierProvider.value(
                 value: appModel.currentProblem,
                 child: ProblemView(),
