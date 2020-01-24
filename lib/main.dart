@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mathr/src/model.dart';
-import 'package:mathr/src/vied.dart';
+import 'package:mathr/src/view.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp());

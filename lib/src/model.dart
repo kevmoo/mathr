@@ -1,18 +1,8 @@
 import 'package:flutter/foundation.dart';
 
-class Model {
-  SumProblem _currentProblem = SumProblem(SumProblemData(3, 4), []);
-
-  SumProblem get currentProblem => _currentProblem;
-}
-
-Iterable<int> _answers(SumProblemData problem) sync* {
-  yield problem.solution;
-}
-
 SumProblem sampleProb() {
   final data = SumProblemData(3, 4);
-  return SumProblem(data, _answers(data));
+  return SumProblem(data, Iterable.generate(20));
 }
 
 class SumProblem extends ChangeNotifier {
@@ -44,6 +34,7 @@ class SumProblem extends ChangeNotifier {
     } else {
       answer._enabled = false;
     }
+    notifyListeners();
   }
 }
 
@@ -60,12 +51,12 @@ class Answer {
   final int value;
   final SumProblem _parent;
 
-  bool _enabled = false;
+  bool _enabled = true;
 
   Answer(this.value, this._parent);
 
-  void Function() onClick() {
-    if (_enabled) {
+  void Function() get onClick {
+    if (!_enabled) {
       return null;
     }
 
