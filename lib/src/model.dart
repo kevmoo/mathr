@@ -1,8 +1,53 @@
+import 'dart:math' as math;
+
 import 'package:flutter/foundation.dart';
 
-SumProblem sampleProb() {
-  final data = SumProblemData(3, 4);
-  return SumProblem(data, Iterable.generate(20));
+class AppModel extends ChangeNotifier {
+  final _rnd = math.Random();
+
+  SumProblem _currentProblem;
+
+  AppModel() {
+    _newProblem();
+  }
+
+  SumProblem get currentProblem => _currentProblem;
+
+  void Function() get onSkip {
+    if (_currentProblem.solved) {
+      return null;
+    }
+
+    return _newProblem;
+  }
+
+  void Function() get onNext {
+    if (_currentProblem.solved) {
+      print("tis solved!");
+      return _newProblem;
+    }
+    return null;
+  }
+
+  void _newProblem() {
+    if (_currentProblem != null) {
+      _currentProblem.removeListener(_listener);
+    }
+    _currentProblem = _sampleProb();
+    _currentProblem.addListener(_listener);
+    notifyListeners();
+  }
+
+  void _listener() {
+    if (_currentProblem.solved) {
+      notifyListeners();
+    }
+  }
+
+  SumProblem _sampleProb() {
+    final data = SumProblemData(_rnd.nextInt(10), _rnd.nextInt(10));
+    return SumProblem(data, Iterable.generate(20));
+  }
 }
 
 class SumProblem extends ChangeNotifier {
@@ -38,6 +83,7 @@ class SumProblem extends ChangeNotifier {
   }
 }
 
+@immutable
 class SumProblemData {
   final int first;
   final int second;

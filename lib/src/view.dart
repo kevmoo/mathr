@@ -4,9 +4,45 @@ import 'package:provider/provider.dart';
 
 class AppView extends StatelessWidget {
   @override
+  Widget build(BuildContext context) => Consumer<AppModel>(
+        builder: (_, appModel, __) => Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Flexible(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  OutlineButton(
+                    child: Text('Next'),
+                    onPressed: appModel.onNext,
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  OutlineButton(
+                    child: Text('Skip'),
+                    onPressed: appModel.onSkip,
+                  ),
+                ],
+              ),
+            ),
+            Flexible(
+              flex: 2,
+              child: ChangeNotifierProvider.value(
+                value: appModel.currentProblem,
+                child: ProblemView(),
+              ),
+            ),
+          ],
+        ),
+      );
+}
+
+class ProblemView extends StatelessWidget {
+  @override
   Widget build(BuildContext context) => Consumer<SumProblem>(
         builder: (_, problem, __) => Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Expanded(
               flex: 1,
@@ -30,6 +66,11 @@ class AppView extends StatelessWidget {
                         problem.solved
                             ? problem.problem.solution.toString()
                             : '?',
+                        style: problem.solved
+                            ? TextStyle(
+                                color: Colors.green,
+                              )
+                            : null,
                         textAlign: TextAlign.right,
                       ),
                     ],
