@@ -55,6 +55,8 @@ class Answer {
 
   Answer(this.value, this._parent);
 
+  bool get enabled => _enabled;
+
   void Function() get onClick {
     if (!_enabled) {
       return null;

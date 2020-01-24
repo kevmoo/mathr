@@ -42,11 +42,22 @@ class AppView extends StatelessWidget {
               child: Wrap(
                 runAlignment: WrapAlignment.start,
                 alignment: WrapAlignment.center,
-                spacing: 10,
+                spacing: 20,
+                runSpacing: 20,
                 children: <Widget>[
                   for (var answer in problem.answers)
-                    OutlineButton(
-                      child: Text(answer.value.toString()),
+                    FloatingActionButton(
+                      disabledElevation: 0,
+                      backgroundColor: answer.enabled
+                          ? null
+                          : Theme.of(context).disabledColor,
+                      child: Text(
+                        answer.value.toString(),
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       onPressed: answer.onClick,
                     )
                 ],
