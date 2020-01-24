@@ -3,6 +3,16 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 
 class AppModel extends ChangeNotifier {
+  static const _lowValue = 0;
+  static const _highValue = 9;
+
+  // lowest possible answer
+  static const _lowAnswer = _lowValue + _lowValue;
+
+  // higest possible answer
+  static const _highAnswer = _highValue + _highValue;
+  static const _range = _highAnswer - _lowAnswer + 1;
+
   final _rnd = math.Random();
 
   SumProblem _currentProblem;
@@ -44,9 +54,15 @@ class AppModel extends ChangeNotifier {
     }
   }
 
+  int get _randomValue => _lowValue + _rnd.nextInt(_highValue - _lowValue + 1);
+
   SumProblem _sampleProb() {
-    final data = SumProblemData(_rnd.nextInt(10), _rnd.nextInt(10));
-    return SumProblem(data, Iterable.generate(20));
+    final data = SumProblemData(
+      _randomValue,
+      _randomValue,
+    );
+
+    return SumProblem(data, Iterable.generate(_range, (i) => i + _lowAnswer));
   }
 }
 
