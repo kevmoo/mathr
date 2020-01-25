@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'src/model/app_model.dart';
+import 'src/model/problem_set.dart';
+import 'src/model/sum_problem_set.dart';
 import 'src/view.dart';
 
 void main() => runApp(MyApp());
@@ -46,8 +47,8 @@ class MyHomePage extends StatelessWidget {
         // the App.build method, and use it to set our appbar title.
         title: Text(title),
       ),
-      body: ChangeNotifierProvider(
-        create: (_) => AppModel(),
+      body: ChangeNotifierProvider<ProblemSet>(
+        create: (_) => SumProblemSet(),
         child: AppView(),
       ),
     );

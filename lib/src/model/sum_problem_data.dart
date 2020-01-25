@@ -1,55 +1,38 @@
 import 'package:flutter/foundation.dart';
 
-import 'sum_problem.dart';
+import 'problem_data.dart';
 
-class SumProblem extends ChangeNotifier {
-  final SumProblemData problem;
+@immutable
+class SumProblemData extends ProblemData<int>
+    implements Comparable<SumProblemData> {
+  final int first;
+  final int second;
 
-  final answers = <SumProblemAnswer>[];
+  /// Requires that [first] <= [second]. Used to normalize values for tracking
+  /// progress.
+  SumProblemData(this.first, this.second) : assert(first <= second);
 
-  bool _solved = false;
+  SumProblemData.raw(this.first, this.second);
 
-  SumProblem(this.problem, Iterable<int> answerValues)
-      : assert(
-          answerValues.any((element) => element == problem.solution),
-          'At least one answer should be the right solution.',
-        ) {
-    answers.addAll(answerValues.map((e) => SumProblemAnswer(e, this)));
-  }
+  int get solution => first + second;
 
-  bool get solved => _solved;
+  @override
+  int compareTo(SumProblemData other) {
+    var value = first.compareTo(other.first);
 
-  void _click(SumProblemAnswer answer) {
-    assert(answers.contains(answer));
-    assert(answer._enabled);
-
-    if (answer.value == problem.solution) {
-      _solved = true;
-      for (var value in answers) {
-        value._enabled = false;
-      }
-    } else {
-      answer._enabled = false;
+    if (value == 0) {
+      value = second.compareTo(other.second);
     }
-    notifyListeners();
+    return value;
   }
-}
 
-class SumProblemAnswer {
-  final int value;
-  final SumProblem _parent;
+  @override
+  int get hashCode => first * 17 ^ second;
 
-  bool _enabled = true;
+  @override
+  bool operator ==(Object other) =>
+      other is SumProblemData && first == other.first && second == other.second;
 
-  SumProblemAnswer(this.value, this._parent);
-
-  bool get enabled => _enabled;
-
-  void Function() get onClick {
-    if (!_enabled) {
-      return null;
-    }
-
-    return () => _parent._click(this);
-  }
+  @override
+  String get problemText => '$first\n+ $second';
 }
