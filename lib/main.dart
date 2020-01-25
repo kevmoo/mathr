@@ -5,52 +5,25 @@ import 'src/model/problem_set.dart';
 import 'src/model/sum_problem_set.dart';
 import 'src/view.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(MathrApp());
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class MathrApp extends StatelessWidget {
+  static const _title = 'mathr';
+
   @override
   Widget build(BuildContext context) => MaterialApp(
-        title: 'mathr',
+        title: _title,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: MyHomePage(title: 'mathr'),
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text(_title),
+          ),
+          body: ChangeNotifierProvider<ProblemSet>(
+            create: (_) => SumProblemSet(),
+            child: AppView(),
+          ),
+        ),
       );
-}
-
-class MyHomePage extends StatelessWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(title),
-      ),
-      body: ChangeNotifierProvider<ProblemSet>(
-        create: (_) => SumProblemSet(),
-        child: AppView(),
-      ),
-    );
-  }
 }
