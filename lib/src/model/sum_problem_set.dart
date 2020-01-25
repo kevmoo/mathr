@@ -18,7 +18,7 @@ const _range = _highAnswer - _lowAnswer + 1;
 
 Iterable<SumProblemData> _sumProblems() sync* {
   for (var i = _lowValue; i <= _highValue; i++) {
-    for (var j = i; j < _highValue; j++) {
+    for (var j = i; j <= _highValue; j++) {
       yield SumProblemData(i, j);
     }
   }
