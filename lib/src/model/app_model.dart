@@ -9,10 +9,10 @@ class AppModel extends ChangeNotifier {
   static const _lowValue = 0;
   static const _highValue = 9;
 
-  // lowest possible answer
+  // lowest possible sum answer
   static const _lowAnswer = _lowValue + _lowValue;
 
-  // higest possible answer
+  // highest possible sum answer
   static const _highAnswer = _highValue + _highValue;
   static const _range = _highAnswer - _lowAnswer + 1;
 
