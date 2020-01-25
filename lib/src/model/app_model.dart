@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 
+import '../util.dart';
 import 'sum_problem.dart';
 import 'sum_problem_data.dart';
 
@@ -15,8 +16,6 @@ class AppModel extends ChangeNotifier {
   // highest possible sum answer
   static const _highAnswer = _highValue + _highValue;
   static const _range = _highAnswer - _lowAnswer + 1;
-
-  final _rnd = math.Random();
 
   SumProblem _currentProblem;
 
@@ -49,14 +48,30 @@ class AppModel extends ChangeNotifier {
     }
   }
 
-  int get _randomValue => _lowValue + _rnd.nextInt(_highValue - _lowValue + 1);
+  int _randomValue() =>
+      _lowValue + sharedRandom.nextInt(_highValue - _lowValue + 1);
 
   SumProblem _sampleProb() {
+    final a = _randomValue();
+    final b = _randomValue();
+
     final data = SumProblemData(
-      _randomValue,
-      _randomValue,
+      math.min(a, b),
+      math.max(a, b),
     );
 
-    return SumProblem(data, Iterable.generate(_range, (i) => i + _lowAnswer));
+    return SumProblem(
+      _maybeFlip(data),
+      Iterable.generate(_range, (i) => i + _lowAnswer),
+    );
+  }
+
+  /// 50% chance that the returned value has [first] and [second] flipped.
+  SumProblemData _maybeFlip(SumProblemData data) {
+    if (sharedRandom.nextBool()) {
+      return data;
+    } else {
+      return SumProblemData.raw(data.second, data.first);
+    }
   }
 }
