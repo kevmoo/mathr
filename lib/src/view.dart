@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mathr/src/model.dart';
 import 'package:provider/provider.dart';
+
+import 'model/app_model.dart';
+import 'model/sum_problem_data.dart';
 
 class AppView extends StatelessWidget {
   @override
@@ -38,6 +40,7 @@ class ProblemView extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.all(20),
                 child: FittedBox(
+                  // TODO: specific to a sum problem – should make generic
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.end,
