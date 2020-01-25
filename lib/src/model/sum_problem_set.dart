@@ -24,11 +24,11 @@ Iterable<SumProblemData> _sumProblems() sync* {
   }
 }
 
-class SumProblemSet extends ProblemSet<int> {
+class SumProblemSet extends ProblemSet<int, SumProblemData> {
   SumProblemSet() : super(_sumProblems());
 
   @override
-  Problem<int> nextProblem(covariant SumProblemData data) {
+  Problem<int> nextProblem(SumProblemData data) {
     return Problem(
       _maybeFlip(data),
       Iterable.generate(_range, (i) => i + _lowAnswer),

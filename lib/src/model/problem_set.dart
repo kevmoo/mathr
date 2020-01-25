@@ -6,11 +6,10 @@ import 'package:mathr/src/model/problem.dart';
 import '../util.dart';
 import 'problem_data.dart';
 
-abstract class ProblemSet<T> extends ChangeNotifier {
-  final Map<ProblemData<T>, List> _problems =
-      SplayTreeMap<ProblemData<T>, List>();
+abstract class ProblemSet<T, PD extends ProblemData<T>> extends ChangeNotifier {
+  final Map<PD, List> _problems = SplayTreeMap<PD, List>();
 
-  ProblemSet(Iterable<ProblemData<T>> problems) {
+  ProblemSet(Iterable<PD> problems) {
     for (var problem in problems) {
       _problems[problem] = [];
     }
@@ -18,11 +17,12 @@ abstract class ProblemSet<T> extends ChangeNotifier {
     _newProblem();
   }
 
-  ProblemData<T> _nextProblemData() =>
+  PD _nextProblemData() =>
       _problems.keys.elementAt(sharedRandom.nextInt(_problems.length));
 
+  /// Overridden in subclass to create a new [Problem] given a [ProblemData].
   @protected
-  Problem<T> nextProblem(ProblemData<T> data);
+  Problem<T> nextProblem(PD data);
 
   Problem<T> _currentProblem;
 
