@@ -8,11 +8,7 @@ class SumProblemData extends ProblemData<int>
   final int first;
   final int second;
 
-  /// Requires that [first] <= [second]. Used to normalize values for tracking
-  /// progress.
-  SumProblemData(this.first, this.second) : assert(first <= second);
-
-  SumProblemData.raw(this.first, this.second);
+  SumProblemData(this.first, this.second);
 
   @override
   int get solution => first + second;
