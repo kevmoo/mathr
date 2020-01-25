@@ -14,6 +14,7 @@ class SumProblemData extends ProblemData<int>
 
   SumProblemData.raw(this.first, this.second);
 
+  @override
   int get solution => first + second;
 
   @override
@@ -35,4 +36,7 @@ class SumProblemData extends ProblemData<int>
 
   @override
   String get problemText => '$first\n+ $second';
+
+  @override
+  String toString() => '$first + $second = $solution';
 }
