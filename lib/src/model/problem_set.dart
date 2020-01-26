@@ -2,31 +2,73 @@ import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
 import 'package:mathr/src/model/problem.dart';
+import 'package:stats/stats.dart';
 
 import '../util.dart';
 import 'problem_data.dart';
 
+class _ProblemScore {
+  static const _maxEntries = 5;
+  final _entries = ListQueue<_ScoreEntry>();
+
+  void _scoreCurrentProblem(Problem problem, Duration elapsed) {
+    _entries.add(_ScoreEntry(problem.solved, problem.wrongAnswers, elapsed));
+
+    while (_entries.length > _maxEntries) {
+      _entries.removeLast();
+    }
+  }
+}
+
+class _ScoreEntry {
+  final bool solved;
+  final int incorrectAttempts;
+  final Duration elapsed;
+
+  _ScoreEntry(this.solved, this.incorrectAttempts, this.elapsed)
+      : assert(incorrectAttempts >= 0),
+        assert(!elapsed.isNegative);
+
+  bool get skipped => !solved;
+
+  int get points {
+    if (!solved) {
+      return 10;
+    }
+
+    return incorrectAttempts * 2 + elapsed.inSeconds;
+  }
+}
+
 abstract class ProblemSet<T, PD extends ProblemData<T>> extends ChangeNotifier {
-  final Map<PD, List> _problems = SplayTreeMap<PD, List>();
+  final _watch = Stopwatch()..start();
+  final _problems = SplayTreeMap<PD, _ProblemScore>();
+  Problem<T> _currentProblem;
+  Stats _statsCache;
 
   ProblemSet(Iterable<PD> problems) {
     for (var problem in problems) {
-      _problems[problem] = [];
+      _problems[problem] = _ProblemScore();
     }
 
     _newProblem();
   }
 
-  PD _nextProblemData() =>
-      _problems.keys.elementAt(sharedRandom.nextInt(_problems.length));
+  Stats get stats => _statsCache ??= _scoreEntries.isEmpty
+      ? null
+      : Stats.fromData(_scoreEntries.map((e) => e.points));
 
   /// Overridden in subclass to create a new [Problem] given a [ProblemData].
   @protected
   Problem<T> nextProblem(PD data);
 
-  Problem<T> _currentProblem;
+  PD _nextProblemData() =>
+      _problems.keys.elementAt(sharedRandom.nextInt(_problems.length));
 
   Problem<T> get currentProblem => _currentProblem;
+
+  Iterable<_ScoreEntry> get _scoreEntries =>
+      _problems.values.expand((element) => element._entries);
 
   void Function() get onSkip {
     if (_currentProblem.solved) {
@@ -38,10 +80,21 @@ abstract class ProblemSet<T, PD extends ProblemData<T>> extends ChangeNotifier {
 
   void _newProblem() {
     if (_currentProblem != null) {
+      _problems[_currentProblem.data]._scoreCurrentProblem(
+        _currentProblem,
+        _watch.elapsed,
+      );
+
+      _statsCache = null;
+
       _currentProblem.removeListener(_listener);
     }
-    _currentProblem = nextProblem(_nextProblemData());
+    final nextData = _nextProblemData();
+    _currentProblem = nextProblem(nextData);
+    assert(identical(nextData, _currentProblem.data));
     _currentProblem.addListener(_listener);
+    assert(_watch.isRunning);
+    _watch.reset();
     notifyListeners();
   }
 

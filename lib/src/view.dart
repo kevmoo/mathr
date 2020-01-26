@@ -12,9 +12,21 @@ class AppView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Center(
-              child: OutlineButton(
-                child: Text('Skip'),
-                onPressed: problemSet.onSkip,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  if (problemSet.stats != null) ...[
+                    _data('Count', problemSet.stats.count),
+                    _data('Average', problemSet.stats.mean),
+                    _data('Median', problemSet.stats.median),
+                    _data('Min', problemSet.stats.min),
+                    _data('Max', problemSet.stats.max)
+                  ],
+                  OutlineButton(
+                    child: Text('Skip'),
+                    onPressed: problemSet.onSkip,
+                  ),
+                ],
               ),
             ),
             Expanded(
@@ -28,3 +40,11 @@ class AppView extends StatelessWidget {
         ),
       );
 }
+
+Widget _data(String label, num data) => Padding(
+      padding: EdgeInsets.all(10),
+      child: Text(
+        '$label: ${data.toStringAsFixed(1)}',
+        textScaleFactor: 1.2,
+      ),
+    );

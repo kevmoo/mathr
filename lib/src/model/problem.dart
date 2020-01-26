@@ -4,9 +4,8 @@ import 'problem_data.dart';
 
 class Problem<T> extends ChangeNotifier {
   final ProblemData<T> data;
-
   final answers = <AnswerModel<T>>[];
-
+  int _wrongAnswers = 0;
   bool _solved = false;
 
   Problem(this.data, Iterable<T> answerValues)
@@ -19,6 +18,8 @@ class Problem<T> extends ChangeNotifier {
 
   bool get solved => _solved;
 
+  int get wrongAnswers => _wrongAnswers;
+
   void _click(AnswerModel answer) {
     assert(answers.contains(answer));
     assert(answer._enabled);
@@ -29,6 +30,7 @@ class Problem<T> extends ChangeNotifier {
         value._enabled = false;
       }
     } else {
+      _wrongAnswers++;
       answer._enabled = false;
     }
     notifyListeners();
