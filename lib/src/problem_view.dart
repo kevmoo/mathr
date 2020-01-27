@@ -10,7 +10,6 @@ class ProblemView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Expanded(
-              flex: 1,
               child: Container(
                 padding: EdgeInsets.all(20),
                 child: FittedBox(
@@ -42,7 +41,6 @@ class ProblemView extends StatelessWidget {
               ),
             ),
             Expanded(
-              flex: 1,
               child: Wrap(
                 runAlignment: WrapAlignment.start,
                 alignment: WrapAlignment.center,

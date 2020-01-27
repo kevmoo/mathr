@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:mathr/src/model/problem.dart';
@@ -18,9 +19,15 @@ class _ProblemScore {
       _entries.removeLast();
     }
   }
+
+  num get average => _entries.isEmpty
+      ? null
+      : _entries.map((element) => element.points).average;
 }
 
 class _ScoreEntry {
+  static const _maxPoints = 10;
+
   final bool solved;
   final int incorrectAttempts;
   final Duration elapsed;
@@ -33,10 +40,11 @@ class _ScoreEntry {
 
   int get points {
     if (!solved) {
-      return 10;
+      return _maxPoints;
     }
 
-    return incorrectAttempts * 2 + elapsed.inSeconds;
+    // no more than 10 – or other value DBD
+    return math.min(incorrectAttempts * 2 + elapsed.inSeconds, _maxPoints);
   }
 }
 
@@ -54,9 +62,13 @@ abstract class ProblemSet<T, PD extends ProblemData<T>> extends ChangeNotifier {
     _newProblem();
   }
 
-  Stats get stats => _statsCache ??= _scoreEntries.isEmpty
-      ? null
-      : Stats.fromData(_scoreEntries.map((e) => e.points));
+  Stats get stats => _statsCache ??=
+      _scoreEntries.isEmpty ? null : Stats.fromData(_scoreEntries);
+
+  int get problemCount => _problems.length;
+
+  int get visitedProblemCount =>
+      _problems.values.where((element) => element._entries.isNotEmpty).length;
 
   /// Overridden in subclass to create a new [Problem] given a [ProblemData].
   @protected
@@ -67,8 +79,9 @@ abstract class ProblemSet<T, PD extends ProblemData<T>> extends ChangeNotifier {
 
   Problem<T> get currentProblem => _currentProblem;
 
-  Iterable<_ScoreEntry> get _scoreEntries =>
-      _problems.values.expand((element) => element._entries);
+  Iterable<num> get _scoreEntries => _problems.values
+      .map((element) => element.average)
+      .where((element) => element != null);
 
   void Function() get onSkip {
     if (_currentProblem.solved) {

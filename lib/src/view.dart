@@ -8,43 +8,46 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Consumer<ProblemSet>(
         builder: (_, problemSet, __) => Column(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  if (problemSet.stats != null) ...[
-                    _data('Count', problemSet.stats.count),
-                    _data('Average', problemSet.stats.mean),
-                    _data('Median', problemSet.stats.median),
-                    _data('Min', problemSet.stats.min),
-                    _data('Max', problemSet.stats.max)
-                  ],
-                  OutlineButton(
-                    child: Text('Skip'),
-                    onPressed: problemSet.onSkip,
-                  ),
-                ],
-              ),
+              child: OutlineButton(
+                  child: Text('Skip'), onPressed: problemSet.onSkip),
             ),
-            Expanded(
-              flex: 3,
+            ConstrainedBox(
+              constraints: BoxConstraints(minHeight: 200, maxHeight: 500),
               child: ChangeNotifierProvider.value(
                 value: problemSet.currentProblem,
                 child: ProblemView(),
               ),
             ),
+            if (problemSet.stats != null)
+              Wrap(
+                alignment: WrapAlignment.center,
+                children: <Widget>[
+                  _data('Problems',
+                      '${problemSet.visitedProblemCount}/${problemSet.problemCount}'),
+                  _numData('Count', problemSet.stats.count),
+                  _numData('Average', problemSet.stats.mean),
+                  _numData('Median', problemSet.stats.median),
+                  _numData('Min', problemSet.stats.min),
+                  _numData('Max', problemSet.stats.max),
+                ],
+              ),
           ],
         ),
       );
 }
 
-Widget _data(String label, num data) => Padding(
+Widget _numData(String label, num data) =>
+    _data(label, data.toStringAsFixed(1));
+
+Widget _data(String label, String data) => Padding(
       padding: EdgeInsets.all(10),
       child: Text(
-        '$label: ${data.toStringAsFixed(1)}',
+        '$label: $data',
         textScaleFactor: 1.2,
       ),
     );
