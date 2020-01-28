@@ -72,7 +72,7 @@ abstract class ProblemSet<T, PD extends ProblemData<T>> extends ChangeNotifier {
 
   /// Overridden in subclass to create a new [Problem] given a [ProblemData].
   @protected
-  Problem<T> nextProblem(PD data);
+  Problem<T> problemFromData(PD data);
 
   PD _nextProblemData() =>
       _problems.keys.elementAt(sharedRandom.nextInt(_problems.length));
@@ -103,7 +103,7 @@ abstract class ProblemSet<T, PD extends ProblemData<T>> extends ChangeNotifier {
       _currentProblem.removeListener(_listener);
     }
     final nextData = _nextProblemData();
-    _currentProblem = nextProblem(nextData);
+    _currentProblem = problemFromData(nextData);
     assert(identical(nextData, _currentProblem.data));
     _currentProblem.addListener(_listener);
     assert(_watch.isRunning);

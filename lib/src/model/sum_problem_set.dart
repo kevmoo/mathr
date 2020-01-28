@@ -29,7 +29,7 @@ class SumProblemSet extends ProblemSet<int, SumProblemData> {
   }) : super(_sumProblems(lowValue, highValue));
 
   @override
-  Problem<int> nextProblem(SumProblemData data) => Problem(
+  Problem<int> problemFromData(SumProblemData data) => Problem(
         data,
         Iterable.generate(_range, (i) => i + _lowAnswer),
       );
