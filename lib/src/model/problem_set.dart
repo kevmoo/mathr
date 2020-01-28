@@ -55,6 +55,7 @@ abstract class ProblemSet<T, PD extends ProblemData<T>> extends ChangeNotifier {
   Stats _statsCache;
 
   ProblemSet(Iterable<PD> problems) {
+    assert(problems.length > 1, 'Must have at least 2 problems.');
     for (var problem in problems) {
       _problems[problem] = _ProblemScore();
     }
@@ -74,8 +75,18 @@ abstract class ProblemSet<T, PD extends ProblemData<T>> extends ChangeNotifier {
   @protected
   Problem<T> problemFromData(PD data);
 
-  PD _nextProblemData() =>
-      _problems.keys.elementAt(sharedRandom.nextInt(_problems.length));
+  /// Many desired restrictions here.
+  ///
+  /// 1) Next problem should not repeat the previous problem.
+  PD _nextProblemData() {
+    PD nextValue;
+    do {
+      nextValue =
+          _problems.keys.elementAt(sharedRandom.nextInt(_problems.length));
+    } while (nextValue == _currentProblem?.data);
+
+    return nextValue;
+  }
 
   Problem<T> get currentProblem => _currentProblem;
 
