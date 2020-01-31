@@ -18,7 +18,7 @@ class Problem<T> extends ChangeNotifier {
 
   bool get solved => _solved;
 
-  int get wrongAnswers => _wrongAnswers;
+  int get incorrectAttempts => _wrongAnswers;
 
   void _click(AnswerModel answer) {
     assert(answers.contains(answer));

@@ -10,7 +10,9 @@ class ProblemScore {
   final _entries = ListQueue<ScoreEntry>();
 
   void scoreCurrentProblem(Problem problem, Duration elapsed) {
-    _entries.add(ScoreEntry(problem.solved, problem.wrongAnswers, elapsed));
+    _entries.add(
+      ScoreEntry(problem.solved, problem.incorrectAttempts, elapsed),
+    );
 
     while (_entries.length > _maxEntries) {
       _entries.removeLast();
