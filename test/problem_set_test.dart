@@ -31,15 +31,12 @@ void main() {
           (element) => element.value == previousProblem.data.solution);
       rightAnswer.onClick();
 
-      /*
       expect(
         probSet.visitedProblemCount,
         math.min(i + 1, probSet.problemCount),
         reason: 'if the right answer is clicked, the visited problem count '
             'should increase (until we hit the total problem count).',
       );
-
-       */
     }
   });
 }
