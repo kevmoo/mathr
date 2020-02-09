@@ -38,6 +38,15 @@ class Problem<T> extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  @override
+  bool operator ==(Object other) => other is Problem && other.data == data;
+
+  @override
+  int get hashCode => data.hashCode;
+
+  @override
+  String toString() => 'Problem: $data';
 }
 
 class AnswerModel<T> {
