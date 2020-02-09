@@ -12,10 +12,11 @@ class AppView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            /*
             Center(
               child: OutlineButton(
                   child: Text('Skip'), onPressed: problemSet.onSkip),
-            ),
+            ),*/
             ConstrainedBox(
               constraints: BoxConstraints(minHeight: 200, maxHeight: 500),
               child: ChangeNotifierProvider.value(
