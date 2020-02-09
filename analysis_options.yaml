@@ -6,4 +6,5 @@ analyzer:
 
 linter:
   rules:
+  - annotate_overrides
   - unnecessary_brace_in_string_interps

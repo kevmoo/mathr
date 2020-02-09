@@ -21,4 +21,8 @@ class ScoreEntry {
     // no more than 10 – or other value DBD
     return math.min(incorrectAttempts * 2 + elapsed.inSeconds, _maxPoints);
   }
+
+  @override
+  String toString() => 'ScoreEntry solved:$solved; '
+      'incorrectAttempts:$incorrectAttempts; elapsed:$elapsed';
 }

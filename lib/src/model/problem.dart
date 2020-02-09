@@ -20,6 +20,9 @@ class Problem<T> extends ChangeNotifier {
 
   int get incorrectAttempts => _wrongAnswers;
 
+  AnswerModel<T> get correctAnswer =>
+      answers.singleWhere((element) => element.value == data.solution);
+
   void _click(AnswerModel answer) {
     assert(answers.contains(answer));
     assert(answer._enabled);

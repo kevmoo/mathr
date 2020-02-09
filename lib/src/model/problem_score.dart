@@ -26,4 +26,7 @@ class ProblemScore {
   bool get hasEntries => _entries.isNotEmpty;
 
   int get entryCount => _entries.length;
+
+  @override
+  String toString() => 'ProblemScore: [${_entries.join(', ')}]';
 }

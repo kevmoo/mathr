@@ -24,10 +24,7 @@ void main() {
           reason: 'Current problem should not be the same as the last problem',
         );
         previousProblem = probSet.currentProblem;
-
-        final rightAnswer = previousProblem.answers.singleWhere(
-            (element) => element.value == previousProblem.data.solution);
-        rightAnswer.onClick();
+        previousProblem.correctAnswer.onClick();
 
         expect(
           probSet.visitedProblemCount,
