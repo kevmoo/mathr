@@ -7,4 +7,5 @@ analyzer:
 linter:
   rules:
   - annotate_overrides
+  - prefer_relative_imports
   - unnecessary_brace_in_string_interps

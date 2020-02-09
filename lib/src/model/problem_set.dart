@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
-import 'package:mathr/src/model/problem.dart';
+import 'problem.dart';
 import 'package:stats/stats.dart';
 
 import '../util.dart';
