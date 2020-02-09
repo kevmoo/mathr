@@ -15,7 +15,7 @@ class ProblemScore {
     );
 
     while (_entries.length > _maxEntries) {
-      _entries.removeLast();
+      _entries.removeFirst();
     }
   }
 
