@@ -1,10 +1,10 @@
 import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
-import 'problem.dart';
 import 'package:stats/stats.dart';
 
 import '../util.dart';
+import 'problem.dart';
 import 'problem_data.dart';
 import 'problem_score.dart';
 
@@ -35,6 +35,46 @@ abstract class ProblemSet<T, PD extends ProblemData<T>> extends ChangeNotifier {
   @protected
   Problem<T> problemFromData(PD data);
 
+  Problem<T> get currentProblem => _currentProblem;
+
+  void Function() get onSkip {
+    if (_currentProblem.solved) {
+      return null;
+    }
+
+    return _newProblem;
+  }
+
+  Iterable<num> get _scoreEntries => _problems.values
+      .map((element) => element.average)
+      .where((element) => element != null);
+
+  void _listener() {
+    if (_currentProblem.solved) {
+      _newProblem();
+    }
+  }
+
+  void _newProblem() {
+    if (_currentProblem != null) {
+      _problems[_currentProblem.data].scoreCurrentProblem(
+        _currentProblem,
+        _watch.elapsed,
+      );
+
+      _statsCache = null;
+
+      _currentProblem.removeListener(_listener);
+    }
+    final nextData = _nextProblemData();
+    _currentProblem = problemFromData(nextData);
+    assert(identical(nextData, _currentProblem.data));
+    _currentProblem.addListener(_listener);
+    assert(_watch.isRunning);
+    _watch.reset();
+    notifyListeners();
+  }
+
   /// Many desired restrictions here.
   ///
   /// Next problem should:
@@ -58,45 +98,5 @@ abstract class ProblemSet<T, PD extends ProblemData<T>> extends ChangeNotifier {
     }
 
     return candidateProblems[sharedRandom.nextInt(candidateProblems.length)];
-  }
-
-  Problem<T> get currentProblem => _currentProblem;
-
-  Iterable<num> get _scoreEntries => _problems.values
-      .map((element) => element.average)
-      .where((element) => element != null);
-
-  void Function() get onSkip {
-    if (_currentProblem.solved) {
-      return null;
-    }
-
-    return _newProblem;
-  }
-
-  void _newProblem() {
-    if (_currentProblem != null) {
-      _problems[_currentProblem.data].scoreCurrentProblem(
-        _currentProblem,
-        _watch.elapsed,
-      );
-
-      _statsCache = null;
-
-      _currentProblem.removeListener(_listener);
-    }
-    final nextData = _nextProblemData();
-    _currentProblem = problemFromData(nextData);
-    assert(identical(nextData, _currentProblem.data));
-    _currentProblem.addListener(_listener);
-    assert(_watch.isRunning);
-    _watch.reset();
-    notifyListeners();
-  }
-
-  void _listener() {
-    if (_currentProblem.solved) {
-      _newProblem();
-    }
   }
 }
