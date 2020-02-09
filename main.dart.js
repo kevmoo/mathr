@@ -34664,7 +34664,7 @@ k=L.ee(k+m,n,C.bN,n)
 t=M.r9(n,n,C.l,n,n,1,n,n,25)
 m=b.d?C.e.h(l+m):"?"
 l=u.p
-m=T.Q9(M.r9(n,new T.rP(T.Nw(H.b([k,t,L.ee(m,b.d?A.k7(n,n,C.pq,n,n,n,n,n,n,n,n,n,n,n,n,n,!0,n,n,n,n,n,n):n,C.bN,n)],l),C.fz,C.hN,C.kf),n),n,n,n,n,n,new V.an(20,20,20,20),n))
+m=T.Q9(M.r9(n,new T.rP(T.Nw(H.b([k,t,L.ee(m,b.d?A.k7(n,n,C.pq,n,n,n,n,n,n,n,n,n,n,n,n,n,!0,n,n,n,n,n,n):n,C.bN,n)],l),C.fz,C.hN,C.kf),n),n,n,n,n,n,new V.an(10,10,10,10),n))
 t=H.b([],l)
 for(k=b.b,s=k.length,r=this.a,q=0;q<k.length;k.length===s||(0,H.z)(k),++q){p=k[q]
 o=p.c?n:K.b7(r).go
@@ -34675,7 +34675,7 @@ A.qA.prototype={
 K:function(a){return U.PP(new A.Am(),u.Cl)}}
 A.Am.prototype={
 $3:function(a,b,c){var t=null,s=u.p,r=H.b([],s)
-r.push(new T.cY(new S.aa(0,1/0,200,500),new T.hv(new Y.kS(b.c,t,F.SO(),u.oN),t,new M.uL(t),t,u.jd),t))
+r.push(new T.cY(new S.aa(0,1/0,200,600),new T.hv(new Y.kS(b.c,t,F.SO(),u.oN),t,new M.uL(t),t,u.jd),t))
 if(b.gfM()!=null)r.push(T.Rm(C.fa,H.b([new T.cP(new V.an(10,10,10,10),L.ee("Problems: "+(""+b.gIQ()+"/"+b.b.a),t,t,1.2),t),new T.cP(new V.an(10,10,10,10),L.ee("Count: "+C.e.aT(b.gfM().a,1),t,t,1.2),t),new T.cP(new V.an(10,10,10,10),L.ee("Average: "+C.f.aT(b.gfM().b,1),t,t,1.2),t),new T.cP(new V.an(10,10,10,10),L.ee("Median: "+J.a0(b.gfM().e,1),t,t,1.2),t),new T.cP(new V.an(10,10,10,10),L.ee("Min: "+J.a0(b.gfM().c,1),t,t,1.2),t),new T.cP(new V.an(10,10,10,10),L.ee("Max: "+J.a0(b.gfM().d,1),t,t,1.2),t)],s),C.f9,0,0))
 return T.Nw(r,C.du,C.ke,C.kf)},
 $C:"$3",
