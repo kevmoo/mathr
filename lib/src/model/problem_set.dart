@@ -23,8 +23,8 @@ abstract class ProblemSet<T, PD extends ProblemData<T>> extends ChangeNotifier {
     _newProblem();
   }
 
-  Stats get stats => _statsCache ??=
-      _scoreEntries.isEmpty ? null : Stats.fromData(_scoreEntries);
+  Stats get stats =>
+      _statsCache ??= _scoreEntries.isEmpty ? null : _scoreEntries.stats;
 
   int get problemCount => _problems.length;
 

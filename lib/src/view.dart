@@ -30,7 +30,7 @@ class AppView extends StatelessWidget {
                   _data('Problems',
                       '${problemSet.visitedProblemCount}/${problemSet.problemCount}'),
                   _numData('Count', problemSet.stats.count),
-                  _numData('Average', problemSet.stats.mean),
+                  _numData('Average', problemSet.stats.average),
                   _numData('Median', problemSet.stats.median),
                   _numData('Min', problemSet.stats.min),
                   _numData('Max', problemSet.stats.max),

@@ -20,7 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^4.0.2
-  stats: ^0.2.0
+  stats: ^1.0.0
 
 dev_dependencies:
   flutter_test:

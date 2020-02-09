@@ -1,8 +1,8 @@
 import 'dart:collection';
 
-import 'package:mathr/src/model/problem.dart';
+import 'package:stats/stats.dart';
 
-import '../util.dart';
+import 'problem.dart';
 import 'score_entry.dart';
 
 class ProblemScore {
