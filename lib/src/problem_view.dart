@@ -11,7 +11,7 @@ class ProblemView extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: Container(
-                padding: EdgeInsets.all(20),
+                padding: EdgeInsets.all(10),
                 child: FittedBox(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,

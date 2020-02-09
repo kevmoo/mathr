@@ -18,7 +18,7 @@ class AppView extends StatelessWidget {
                   child: Text('Skip'), onPressed: problemSet.onSkip),
             ),*/
             ConstrainedBox(
-              constraints: BoxConstraints(minHeight: 200, maxHeight: 500),
+              constraints: BoxConstraints(minHeight: 200, maxHeight: 600),
               child: ChangeNotifierProvider.value(
                 value: problemSet.currentProblem,
                 child: ProblemView(),
