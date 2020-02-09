@@ -23,6 +23,9 @@ class ProblemScore {
       ? null
       : _entries.map((element) => element.points).average;
 
+  int get totalIncorrectAttemptCount =>
+      _entries.map((element) => element.incorrectAttempts).sum;
+
   bool get hasEntries => _entries.isNotEmpty;
 
   int get entryCount => _entries.length;

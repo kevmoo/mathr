@@ -75,17 +75,40 @@ abstract class ProblemSet<T, PD extends ProblemData<T>> extends ChangeNotifier {
     notifyListeners();
   }
 
+  Iterable<MapEntry<PD, ProblemScore>> get _noRepeatEntries =>
+      _problems.entries.where((element) {
+        // Only consider problems that != the current problem (might be null)
+        return element.key != _currentProblem?.data;
+      });
+
   /// Many desired restrictions here.
   ///
   /// Next problem should:
   /// 1) not repeat the previous problem.
   /// 2) be in the set of questions that has been visited the least
   PD _nextProblemData() {
+    //
+    // First, prioritize problems with incorrect attemps
+    //
+    final withIncorrectAttempts = _noRepeatEntries
+        .where((element) =>
+            element.value.hasEntries &&
+            element.value.totalIncorrectAttemptCount > 0)
+        .toList(growable: false);
+
+    if (withIncorrectAttempts.isNotEmpty) {
+      return withIncorrectAttempts[
+              sharedRandom.nextInt(withIncorrectAttempts.length)]
+          .key;
+    }
+
+    //
+    // Next, prioritize problems that have been asked least frequently
+    //
     int lowestAnswerCount;
     final candidateProblems = <PD>[];
 
-    for (var entry in _problems.entries
-        .where((element) => element.key != _currentProblem?.data)) {
+    for (var entry in _noRepeatEntries) {
       if (lowestAnswerCount == null ||
           lowestAnswerCount > entry.value.entryCount) {
         candidateProblems.clear();

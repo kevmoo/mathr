@@ -34,6 +34,32 @@ void main() {
         );
       }
     });
+
+    test('prioritize questions with more wrong guesses', () {
+      final probSet = _simpleProblemSet();
+
+      final problem1 = probSet.currentProblem;
+
+      // make 3 bad guesses
+      for (var i = 0; i < 3; i++) {
+        problem1.answers
+            .firstWhere((element) =>
+                element.enabled && element != problem1.correctAnswer)
+            .onClick();
+
+        expect(problem1.incorrectAttempts, i + 1);
+      }
+
+      problem1.correctAnswer.onClick();
+
+      final problem2 = probSet.currentProblem;
+      expect(problem2, isNot(problem1));
+
+      problem2.correctAnswer.onClick();
+
+      final problem3 = probSet.currentProblem;
+      expect(problem3, problem1);
+    });
   });
 }
 
