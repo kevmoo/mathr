@@ -115,7 +115,7 @@ packages:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.0+1"
+    version: "1.9.0"
   petitparser:
     dependency: transitive
     description:
@@ -129,7 +129,7 @@ packages:
       name: provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.3"
+    version: "4.0.4"
   quiver:
     dependency: transitive
     description:
@@ -190,7 +190,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.11"
+    version: "0.2.15"
   typed_data:
     dependency: transitive
     description:
